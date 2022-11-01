@@ -3,14 +3,13 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 8rem;
+    font-size: 6rem;
 }
 img {
     width: 200px;
     height: 200px;
 }
 h2 {
-    margin-top: 30px;
     text-align: center;
 }
 .contenedor-modos {
@@ -19,12 +18,12 @@ h2 {
     justify-content: center;
 }
 .dark{
-    background-color: black;
+    background-color: #121212;
     color: white;
 }
 .light{
     background-color: white;
-    color: black;
+    color: #121212;
 }
 .georgia {
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -36,4 +35,80 @@ h2 {
     display: flex;
     justify-content: center;
     margin-top: 100px;
+}
+#carrito-vacio {
+    margin-top: 20px;
+}
+
+/* Formulario */
+input {
+    display: block;
+    padding: 9px;
+    margin: 12px auto;
+    box-sizing: border-box;
+    border: none;
+    border-top: 2px solid #fff;
+    background: transparent;
+    outline: none !important;
+    transition: background 0.3s;
+    width: 100%;
+    color: #fff;
+}
+input::placeholder {
+    color: #fff;
+}
+input:hover {
+    background: #048;
+
+}
+input:hover::placeholder {
+    color: white;
+}
+input:focus {
+    color: #fff;
+}
+input[type="submit"] {
+    font-weight: bolder;
+    padding: 12px;
+    background: #fff;
+    color: #0d6efd;
+    margin: 24px 0;
+    margin-bottom: 12px;
+}
+input[type="submit"]:hover {
+    background: #048;
+    color: #fff;
+}
+form {
+    width: 25%;
+    margin: auto;
+    margin-bottom: 100px;
+    background: #0d6efd;
+    padding: 20px 20px;
+}
+.titulo-registro {
+    color: white;
+}
+#resultado {
+    color: #fff;
+    text-align: center;
+}
+/* Sector Información */
+.flex-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+.btn-informacion {
+    margin: 20px;
+    width: 10%;
+    font-weight: bolder;
+    padding: 12px;
+    background: #fff;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+.btn-informacion:hover {
+    background: #048;
+    color: #fff;
 }

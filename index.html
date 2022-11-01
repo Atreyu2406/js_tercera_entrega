@@ -18,17 +18,20 @@
         </header>
         <main>
             <h1>Comienza la magia</h1>
-            <div class="contenedor-nombre">
-                <input id="input-nombre" type="text" placeholder="Escriba su nombre">
-            </div>
             <div id="texto-modo" id="fuente-modo" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center light">
-                <div id="secundario" class="col-md-5 p-lg-5 mx-auto my-5">
-                    <h1 class="display-4 fw-normal">Clase 10: Storage</h1>
-                    <p class="lead fw-normal">Local y Session Storage.</p>
+                <div id="secundario" class="col-md-5 p-lg-5 mx-auto my-1">
+                    <h1 class="display-5 fw-normal">Configuración de pantalla</h1>
+                    <p class="lead fw-normal">Elige el modo</p>
                     <button id="btn-modo" class="btn btn-outline-secondary" href="#">Dark Mode</button>
                 </div>
             </div>
-            <h2 id="estilos">Elegir tu materia</h2>
+            <form autocomplete="off">
+                <h2 class="titulo-registro">Registro Alumno/a</h2>
+                <input type="text" placeholder="Nombre y Apellido" id="apellido" required>
+                <input type="button" value="ENVIAR" id="btn-enviar">
+                <div id="resultado"></div>
+            </form>
+            <h2 id="estilos">Elegir materias (máximo cuatro)</h2>
             <div id="misMaterias" class="row row-cols-md-3 m-5 text-center"></div>
             <div class="m-5">
                 <h4>Tu carrito:</h4><br>
@@ -45,11 +48,22 @@
                         <!-- aqui tabla carrito -->
                     </tbody>
                 </table><br>
-                <h4 id="total">Total a pagar $:</h4>
+                <button id="finalizar" class="btn btn-primary">Cargar Materias</button>
+                <h4 id="carrito-vacio"></h4>
+                <h4 id="info-cantidad"></h4>
+                <h4 id="info-alumnos"></h4>
+            </div>
+            <div class="flex-info">
+                <h2 id="sector-info">Sector Información</h2>
+                <button class="btn-informacion" id="btn-info">Presione aquí</button>
+                <h3 id="elementos"></h3>
+                <h3 id="informacion-total"></h3>
             </div>
         </main>
         <!-- JAVASCRIPTS BOOTSTRAP LOCAL -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <!-- sweet alert -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="clases.js"></script>
         <script src="materias.js"></script>
         <script src="codigo.js"></script>

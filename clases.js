@@ -1,8 +1,6 @@
 class Personaje {
-    constructor(nombre, apellido, genero) {
-        this.nombre = nombre, 
-        this.apellido = apellido,
-        this.genero = genero
+    constructor(nombre) {
+        this.nombre = nombre.toUpperCase()
     }
 }
 class Materia {
@@ -11,7 +9,16 @@ class Materia {
         this.nombre = nombre,
         this.imagen = imagen,
         this.profesor = profesor,
-        this.alumnos = alumnos,
-        this.cantidad = 0
+        this.alumnos = alumnos
+    }
+    agregarAlumno(alumno) {
+        this.alumnos.push(alumno);
+    }
+    cantMaterias(alumno) {
+        for (const ingresado of this.alumnos) {
+            if (ingresado.includes(alumno)) {
+                this.cantidad++;
+            }
+        }
     }
 }

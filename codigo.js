@@ -1,5 +1,23 @@
-const carrito = []
+let carrito = []
 let contenedor = document.getElementById("misMaterias");
+let totalCarrito;
+let botonFinalizar = document.getElementById("finalizar");
+
+//Generando un nuevo usuario
+const apellido = document.getElementById("apellido");
+const btnEnviar = document.getElementById("btn-enviar");
+const resultado = document.getElementById("resultado");
+let registro;
+btnEnviar.onclick = () => {
+        if (apellido.value != "") {
+            resultado.innerText = "Nombre Registrado";
+            localStorage.setItem("registro", apellido.value);
+        } else {
+            resultado.innerText = "Ingresar Nombre y Apellido"
+        }     
+}
+
+//Renderizar Materias
 let renderizarMaterias = () => {
     for (const materia of materias) {
         contenedor.innerHTML += `
@@ -30,13 +48,21 @@ let renderizarMaterias = () => {
     })
 } 
 renderizarMaterias();
-
 function materiaSeleccionada(materiaAgregada){
-    if (carrito.length < 4) {
+    if (carrito.length < 4 && !carrito.includes(materiaAgregada)) {
         carrito.push(materiaAgregada);
         localStorage.setItem("materia", JSON.stringify(carrito));
-        console.table(carrito);
-        alert("Producto: "+ materiaAgregada.nombre +" agregado al carrito!");
+        carritoVacio.innerText = "";
+        // materiaAgregada.alumnos.push(localStorage.getItem("registro"))
+        Swal.fire({
+            title: materiaAgregada.nombre,
+            text: 'Materia Seleccionada',
+            imageUrl: materiaAgregada.imagen,
+            imageWidth: 200,
+            imageHeight: 200,
+            showConfirmButton: false,
+            timer: 1500
+        })
         document.getElementById("tablabody").innerHTML += `
             <tbody>
                 <tr>
@@ -60,29 +86,20 @@ function materiaSeleccionada(materiaAgregada){
                 </tr>
             </tbody>
         `;
-        console.log(materiaAgregada.codigo)
-        totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
-        let infoTotal = document.getElementById("total");
-        infoTotal.innerText="Total a pagar $: "+totalCarrito;
     } else {
-        alert("No puede inscribirse en más materias")
+        Swal.fire({
+            icon: 'error',
+            title: 'Cupo lleno',
+            text: 'No puede anotarse en la materia',
+        })
     }
-    
-    // for (const materia of carrito) {
-    //     almacenarMaterias(carrito.codigo, JSON.stringify(materia));
-    // }
-    // const carritoAJson = JSON.stringify(carrito);
-    // localStorage.setItem("materia", carritoAJson);
 }
-
-//Guardado de materias elegidas en Storage
 
 //Dark Mode y Light Mode
 let btnModo = document.getElementById("btn-modo");
 let textoModo = document.getElementById("texto-modo");
 let modoDefecto = localStorage.getItem("modo");
-
-//Renderizado Storage
+//Renderizado Storage Dark Mode y Light Mode
 if (modoDefecto != null) {
     document.body.className = modoDefecto;
     textoModo.className ="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center " + modoDefecto;
@@ -111,10 +128,51 @@ btnModo.onclick = () => {
     localStorage.setItem("modo", modoDefecto);
 }
 
-//Tomando Input Nombre
-let inputNombre = document.getElementById("input-nombre");
+//Boton Finalizar
+let carritoVacio = document.getElementById("carrito-vacio");
+let infoCantidad = document.getElementById("info-cantidad");
+let infoAlumnos = document.getElementById("info-alumnos");
+let contador = 0;
+botonFinalizar.onclick = () => {
+    if (carrito != "") {
+        carrito = [];
+        document.getElementById("tablabody").innerHTML="";
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-start',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'success',
+            title: 'Solicitud Enviada'
+        })
+    } else {
+        carritoVacio.innerText = "Debe seleccionar una materia."
+    }
+}
 
-//No repetir materias
+//Sector Información
+//EN CONSTRUCCIÓN
+// const btnInfo = document.getElementById("btn-info");
+// const ingreso = document.getElementById("ingreso");
+// btnInfo.onclick = () => {
+//     let recuperarStorage = JSON.parse(localStorage.getItem("materia"));
+//     let recuperarAlumnoStorage = localStorage.getItem("registro");
+//     let elementos = document.getElementById("elementos");
+//     elementos.innerText = "El alumno" + recuperarAlumnoStorage;
+//     for (const element of recuperarStorage) {
+//         let informacionTotal = document.getElementById("informacion-total");
+//         console.log(element.profesor)
+//         informacionTotal.innerText += "El profesor es:";
+//     }
+// }
+
 
 
 
