@@ -1,12 +1,45 @@
-let carrito = []
+let carrito = JSON.parse(localStorage.getItem("materia")) || [];
 let contenedor = document.getElementById("misMaterias");
-let totalCarrito;
+let totalMaterias = localStorage.getItem("total");
 let botonFinalizar = document.getElementById("finalizar");
-
-//Generando un nuevo usuario
 const apellido = document.getElementById("apellido");
 const btnEnviar = document.getElementById("btn-enviar");
 const resultado = document.getElementById("resultado");
+
+(carrito != 0) && mostrarCarrito();
+
+//El famoso Carrito Abandonado
+function mostrarCarrito() {
+    for (const materia of carrito) {
+        document.getElementById("tablabody").innerHTML += `
+            <tbody>
+                <tr>
+                    <td>${materia.codigo}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${materia.imagen}" alt="" style="width: 45px; height: 45px"/>
+                            <div class="ms-4">
+                                <p class="fw-bold mb-1">${materia.nombre}</p>
+                                
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                    <p class="text-muted mb-0">${materia.profesor}</p>
+                    </td>
+                    <td>
+                        <button class="btn btn-light" onclick="eliminar(event)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        `;
+    }
+    apellido.value = localStorage.getItem("registro")
+    let total = document.getElementById("total");
+    total.innerText = "Cantidad de Materias Anotadas: " + totalMaterias;
+}
+
+//Generando un nuevo usuario
 let registro;
 btnEnviar.onclick = () => {
         if (apellido.value != "") {
@@ -48,12 +81,15 @@ let renderizarMaterias = () => {
     })
 } 
 renderizarMaterias();
+
+//Selección de materias
 function materiaSeleccionada(materiaAgregada){
-    if (carrito.length < 4 && !carrito.includes(materiaAgregada)) {
+    if (carrito.length < 4 && !carrito.includes(materiaAgregada) && apellido.value != "") {
+        console.log(materiaAgregada.alumnos)
+        materiaAgregada.alumnos.push(apellido.value);
         carrito.push(materiaAgregada);
         localStorage.setItem("materia", JSON.stringify(carrito));
         carritoVacio.innerText = "";
-        // materiaAgregada.alumnos.push(localStorage.getItem("registro"))
         Swal.fire({
             title: materiaAgregada.nombre,
             text: 'Materia Seleccionada',
@@ -72,26 +108,95 @@ function materiaSeleccionada(materiaAgregada){
                             <img src="${materiaAgregada.imagen}" alt="" style="width: 45px; height: 45px"/>
                             <div class="ms-4">
                                 <p class="fw-bold mb-1">${materiaAgregada.nombre}</p>
-                                <p class="text-muted mb-0">${materiaAgregada.profesor}</p>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="fw-normal mb-1">Software engineer</p>
-                        <p class="text-muted mb-0">IT department</p>
+                    <p class="text-muted mb-0">${materiaAgregada.profesor}</p>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
+                        <button class="btn btn-light" onclick="eliminar(event)">X</button>
                     </td>
                 </tr>
             </tbody>
         `;
+        totalMaterias++;
+        localStorage.setItem("total", totalMaterias);
+        let total = document.getElementById("total");
+        let infoAlumnos = document.getElementById("info-alumnos");
+        total.innerText = "Cantidad de Materias Anotadas: " + totalMaterias;
+        infoAlumnos.innerText = materiaAgregada.nombre + ": " + materiaAgregada.alumnos.join(" - ");
+    } else if (apellido.value == "") {
+        Swal.fire({
+            title: 'Debes registrarte',
+            text: "Ingresa tu nombre y apellido",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'entendido'
+        })
     } else {
         Swal.fire({
             icon: 'error',
             title: 'Cupo lleno',
             text: 'No puede anotarse en la materia',
         })
+    }
+    localStorage.getItem("materia")
+}
+
+//Para eliminar materias del carro
+function eliminar(ev){
+    for (const nombre of carrito) {
+        nombre.alumnos.pop()
+    }
+    let fila = ev.target.parentElement.parentElement;
+    let codigo = fila.children[0].innerText;
+    let indice = carrito.findIndex(producto => producto.cod == codigo);
+    console.log(indice)
+    //remueve el producto del carro
+    carrito.splice(indice,1);
+    //remueve la fila de la tabla
+    fila.remove();
+    //storage
+    localStorage.setItem("materia",JSON.stringify(carrito));
+    totalMaterias--;
+    let total = document.getElementById("total");
+    let infoAlumnos = document.getElementById("info-alumnos");
+    total.innerText = "Cantidad de Materias Anotadas: " + totalMaterias;
+    infoAlumnos.innerText = "";
+}
+
+//Asincronía
+function listadoHechizos(){
+    const URLHECHIZOS="hechizos.json";
+    fetch(URLHECHIZOS)
+        .then(respuesta => respuesta.json())
+        .then(hechizo => {
+            for (const info of hechizo) {
+                const listaDeHechizos = info.hechizo;
+                const listaAcciones = info.uso;
+                console.log(listaDeHechizos);
+                document.getElementById("informacion-hechizos").innerHTML+=`
+                    <div class="card card-hechizos">
+                        <div class="card-header bg-primary">${listaDeHechizos}</div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">${listaAcciones}</li>
+                            </ul>
+                    </div>
+                `;  
+            }
+        })
+}
+const btnInfo = document.getElementById("btn-info");
+modoInfo = false;
+btnInfo.onclick = () => {
+    if (modoInfo == false) {
+        listadoHechizos()
+        modoInfo = true;
+    }
+    else {
+        document.getElementById("informacion-hechizos").innerHTML=``
+        modoInfo = false;
     }
 }
 
@@ -152,26 +257,20 @@ botonFinalizar.onclick = () => {
             icon: 'success',
             title: 'Solicitud Enviada'
         })
+        totalMaterias = 0;
+        localStorage.removeItem("total");
+        localStorage.removeItem("materia");
+        let total = document.getElementById("total");
+        let infoAlumnos = document.getElementById("info-alumnos");
+        total.innerText = "Cantidad de Materias Anotadas: " + totalMaterias;
+        infoAlumnos.innerText = "";
+        localStorage.removeItem("registro");
+        apellido.value = "";
     } else {
         carritoVacio.innerText = "Debe seleccionar una materia."
     }
 }
 
-//Sector Información
-//EN CONSTRUCCIÓN
-// const btnInfo = document.getElementById("btn-info");
-// const ingreso = document.getElementById("ingreso");
-// btnInfo.onclick = () => {
-//     let recuperarStorage = JSON.parse(localStorage.getItem("materia"));
-//     let recuperarAlumnoStorage = localStorage.getItem("registro");
-//     let elementos = document.getElementById("elementos");
-//     elementos.innerText = "El alumno" + recuperarAlumnoStorage;
-//     for (const element of recuperarStorage) {
-//         let informacionTotal = document.getElementById("informacion-total");
-//         console.log(element.profesor)
-//         informacionTotal.innerText += "El profesor es:";
-//     }
-// }
 
 
 

@@ -10,14 +10,14 @@
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
-        <title>After Clase 9</title>
+        <title>JS Proyecto Final</title>
     </head>
 
     <body>
         <header>
         </header>
         <main>
-            <h1>Comienza la magia</h1>
+            <h1>Inscripción Materias Deportivas 2023</h1>
             <div id="texto-modo" id="fuente-modo" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center light">
                 <div id="secundario" class="col-md-5 p-lg-5 mx-auto my-1">
                     <h1 class="display-5 fw-normal">Configuración de pantalla</h1>
@@ -48,22 +48,23 @@
                         <!-- aqui tabla carrito -->
                     </tbody>
                 </table><br>
-                <button id="finalizar" class="btn btn-primary">Cargar Materias</button>
+                <h4 id="total">Cantidad de Materias Anotadas:</h4>
+                <h4 id="info-alumnos"></h4>
+                <button id="finalizar" class="btn btn-primary">CARGAR MATERIAS</button>
                 <h4 id="carrito-vacio"></h4>
                 <h4 id="info-cantidad"></h4>
-                <h4 id="info-alumnos"></h4>
             </div>
             <div class="flex-info">
-                <h2 id="sector-info">Sector Información</h2>
+                <h2 id="sector-info">Hechizos permitidos en los eventos deportivos</h2>
                 <button class="btn-informacion" id="btn-info">Presione aquí</button>
-                <h3 id="elementos"></h3>
-                <h3 id="informacion-total"></h3>
             </div>
+            <div id="informacion-hechizos"></div>
         </main>
         <!-- JAVASCRIPTS BOOTSTRAP LOCAL -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-        <!-- sweet alert -->
+        <!-- Sweet Alert -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- JavaScript -->
         <script src="clases.js"></script>
         <script src="materias.js"></script>
         <script src="codigo.js"></script>
